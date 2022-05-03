@@ -69,6 +69,7 @@
 		84C30A34281F393A0060238E /* KeywordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordsViewController.swift; sourceTree = "<group>"; };
 		84C30A37281F3F060060238E /* KeywordRepresentableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordRepresentableView.swift; sourceTree = "<group>"; };
 		84CE08522820A3D20039E679 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		84EB72B72821551800BB7A26 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +169,7 @@
 				844C8C2728200EF9003A3B1F /* AppDelegate.swift */,
 				845A76F3281C877F00E0CCE2 /* Assets.xcassets */,
 				845A76F5281C877F00E0CCE2 /* Preview Content */,
+				84EB72B72821551800BB7A26 /* README.md */,
 			);
 			path = News;
 			sourceTree = "<group>";

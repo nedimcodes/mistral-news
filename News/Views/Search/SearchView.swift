@@ -14,7 +14,7 @@ struct SearchView: View {
     @State var isListLoaded = false
     @State private var searchText = ""
     @State var singleHeadline:Headline?
-    @State var paginationCount = 0
+    @State var paginationCount = 1
     @State var enteredFromTabController = true
     var body: some View {
         NavigationView {
@@ -69,7 +69,6 @@ struct SearchView: View {
                         let sortedHistory = navigationManager.listNavigationHistory.sorted{
                             $0.screen == $1.screen
                         }
-                        print(sortedHistory)
                         if !enteredFromTabController{
                             self.headlinesManager.fetchedHeadlines = sortedHistory[0].headlines
                             scrollView.scrollTo(lastHistory.id)
@@ -83,12 +82,22 @@ struct SearchView: View {
             
             .overlay(content: {
                 if headlinesManager.loadingAction{
-                    HStack{
-                        Text("Fetching Headlines")
-                            .fontWeight(.light)
-                            .padding(.trailing, 10)
-                        ProgressView()
-                    }
+                    ZStack{
+                        Rectangle()
+                            .fill(.white)
+                            .cornerRadius(8)
+                            .shadow(radius: 2)
+                            .frame(width: 200, height: 200, alignment: .center)
+                        HStack{
+                            Text("Fetching Headlines")
+                                .fontWeight(.medium)
+                                .padding(.trailing, 10)
+                                .foregroundColor(.gray)
+                            ProgressView()
+                                .foregroundColor(.black)
+
+                        }
+                    }.padding()
                 }
                 if headlinesManager.fetchedHeadlines == nil{
                     if !headlinesManager.loadingAction{
@@ -101,20 +110,19 @@ struct SearchView: View {
                             Text("Search for example: cute dogs...")
                                 .foregroundColor(.gray)
                         }
-                        .isHidden(!headlinesManager.errorLoading)
+                        .isHidden(headlinesManager.errorLoading)
                     }
                 }
             })
             .listStyle(.plain)
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always)){
-                ForEach(searchManager.listOfSearchedKeywords, id: \.id) { searchedKeyword in
-                    Text(searchedKeyword.keyword)
-                        .searchCompletion(searchedKeyword.keyword)
-                }.onAppear{
-                    searchManager.listOfSearchedKeywords = [Search]()
-                    searchManager.fetchStoredKeywords()
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+            .onChange(of: searchText, perform: { _ in
+                if searchText.isEmpty{
+                    isListLoaded = false
+                    headlinesManager.fetchedHeadlines = nil
+                    searchManager.hideSticky = true
                 }
-            }
+            })
             .onSubmit(of: .search, {
                 searchManager.searchKeyword = searchText
                 isListLoaded = false
@@ -128,7 +136,7 @@ struct SearchView: View {
                     headlinesManager.fetchedHeadlines = nil
                 }
                 searchManager.fetchStoredKeywords()
-                
+                searchManager.hideSticky = true
             })
             .toolbar{
                 NavigationLink(destination: KeywordRepresentableView()) {
@@ -147,6 +155,6 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(enteredFromTabController: false)
+        SearchView(headlinesManager: HeadlinesManager(), navigationManager: NavigationManager())
     }
 }

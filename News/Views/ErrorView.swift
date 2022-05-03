@@ -17,6 +17,7 @@ struct ErrorView: View {
                     .foregroundColor(.white)
                 Text("Connection with server can not established! Please try again.")
                     .fontWeight(.medium)
+                    .foregroundColor(.white)
             }.padding()
         }
     }

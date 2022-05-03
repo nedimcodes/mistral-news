@@ -9,7 +9,7 @@ import Foundation
 
 class NewsAPIHandler: NSObject{
 
-    let apiKey = "f6bf4dd884bb4d06b1f1ea3d725fb25b"
+    let apiKey = "c4fa1af1b54a4eee82d8a8bbc453ee98"
     
     ///Sends API request to newsapi.org
     ///- Parameter model:Model.Type
@@ -35,8 +35,6 @@ class NewsAPIHandler: NSObject{
                         if (status.statusCode == 200){
                             let result = Result { try JSONDecoder().decode(Model.self, from: data)}
                             completion(result)
-                        }else{
-                            print("Issue with result!\nResult: \(String(describing: String(data: data, encoding: .utf8)))")
                         }
                     }
                 }

@@ -10,17 +10,18 @@ import Awesome
 struct MainNavigationView: View {
     let deviceNotificationManager = DeviceNotificationManager()
     var body: some View {
-        TabView {
-            HeadlinesView()
+        TabView{
+            HeadlinesView(enteredFromTab: true)
                 .tabItem {
                     Awesome.Solid.newspaper.image
                     Text("Headlines")
-                }
-            SearchView()
+                }.tag(1)
+            SearchView(enteredFromTabController: true)
                 .tabItem {
                     Awesome.Solid.search.image
                     Text("Search")
                 }
+                .tag(2)
         }
         .onAppear {
             deviceNotificationManager.askForPermission()

@@ -10,9 +10,9 @@ struct HeadlinesView: View {
     @ObservedObject var headlinesManager = HeadlinesManager()
     @ObservedObject var navigationManager = NavigationManager()
     @State var singleHeadline:Headline?
-    @State var category:NewsCategory?
     @State var paginationCount = 0
     @State var scrollViewId: UUID?
+    @State var enteredFromTab = false
 
     var body: some View {
         NavigationView{
@@ -24,11 +24,9 @@ struct HeadlinesView: View {
                                 .onTapGesture {
                                     if category == .trending{
                                         headlinesManager.fetchHeadlines()
-                                        self.category = nil
                                         self.scrollViewId = UUID()
                                     }else{
                                         headlinesManager.fetchHeadlines(category: category)
-                                        self.category = category
                                         self.scrollViewId = UUID()
                                     }
                                 }
@@ -62,10 +60,11 @@ struct HeadlinesView: View {
                                             }
                                     }
                                 }.simultaneousGesture(TapGesture().onEnded{
+                                    enteredFromTab = false
                                     guard let singleHeadline = singleHeadline else {
                                         return
                                     }
-                                    navigationManager.pushHistoryState(history: NavigationHistory(screen: .headlines, id: singleHeadline.id, category: category, headlines: fetchedHeadlines))
+                                    navigationManager.pushHistoryState(history: NavigationHistory(screen: .headlines, id: singleHeadline.id, category: nil, headlines: fetchedHeadlines))
                                 })
                                 
                             }
@@ -76,7 +75,6 @@ struct HeadlinesView: View {
                             guard let lastHistory = lastHistory else {
                                 return
                             }
-                            self.category = lastHistory.category
                             self.headlinesManager.fetchedHeadlines = lastHistory.headlines
                             
                             scrollView.scrollTo(lastHistory.id)
@@ -89,7 +87,7 @@ struct HeadlinesView: View {
                 }
                 
             }.navigationTitle(
-                Text("\(self.category?.rawValue.capitalized ?? "News")")
+                Text("\("News")")
             )
                 .toolbar{
                     if headlinesManager.loadingAction{
@@ -103,8 +101,9 @@ struct HeadlinesView: View {
                     
                 }
                 .onAppear{
-                    if navigationManager.listNavigationHistory.isEmpty{
+                    if navigationManager.listNavigationHistory.isEmpty || enteredFromTab{
                         headlinesManager.fetchHeadlines()
+                        self.scrollViewId = UUID()
                     }
                 }
         }

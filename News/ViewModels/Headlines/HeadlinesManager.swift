@@ -27,6 +27,7 @@ class HeadlinesManager: ObservableObject{
     ///- Parameter page:Int? if not passed defaults to nil.
     ///- Warning method updates to @Published
     func fetchHeadlines(category: NewsCategory?=nil, page: Int?=nil){
+        self.fetchedHeadlines = nil
         self.loadingAction = true
         var endpoint = Endpoint().headlines(page: page)
         if let category = category {
@@ -39,6 +40,9 @@ class HeadlinesManager: ObservableObject{
                 switch(result){
                 case .success(let data):
                     DispatchQueue.main.async {
+                        if data.status == "error"{
+                            self.errorLoading = true
+                        }
                         if let page = page {
                             if page > 0{
                                 if let data = data.headlines{
@@ -84,8 +88,11 @@ class HeadlinesManager: ObservableObject{
                 switch(result){
                 case .success(let data):
                     DispatchQueue.main.async {
+                        if data.status == "error"{
+                            self.errorLoading = true
+                        }
                         if let page = page {
-                            if page > 0 && page < data.totalResults/20{
+                            if page > 0{
                                 if let data = data.headlines{
                                     for headline in data{
                                         if let fetchedHeadlines = self.fetchedHeadlines {

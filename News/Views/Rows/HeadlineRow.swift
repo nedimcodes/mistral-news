@@ -7,33 +7,8 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct HeadlineRowWebImage: View {
-    @State var url: String
-    @State var width: Double?
-    var body: some View {
-        
-        WebImage(url: URL(string: url))
-        // Supports options and context, like `.delayPlaceholder` to show placeholder only when error
-            .onSuccess { image, data, cacheType in
-                // Success
-                // Note: Data exist only when queried from disk cache or network. Use `.queryMemoryData` if you really need data
-            }
-            .resizable() // Resizable like SwiftUI.Image, you must use this modifier or the view will use the image bitmap size
-            .placeholder {
-                Rectangle().foregroundColor(.gray)
-            }
-            .indicator(.activity) // Activity Indicator
-            .transition(.fade(duration: 0.5)) // Fade Transition with duration
-            .scaledToFill()
-            .frame(width: width ?? 300)
-        
-    }
-}
-
 struct HeadlineRow: View {
-    
     @State var headline: Headline
-    
     var body: some View {
         ZStack {
             WebImage(url: URL(string: headline.urlToImage ?? ""))
@@ -68,38 +43,6 @@ struct HeadlineRow: View {
          }
         }
         
-//        VStack{
-//                HeadlineRowWebImage(url: headline.urlToImage ?? "-").overlay(content: {
-//                    VStack{
-//                        VStack{
-//                        Text(headline.title ?? "Title missing")
-//                            .fontWeight(.heavy)
-//                            .font(Font.headline)
-//                            .foregroundColor(.white)
-//
-//
-//                        Text(headline.articleDescription ?? "Title missing")
-//                                .fontWeight(.medium)
-//                                .font(Font.subheadline)
-//                                .foregroundColor(.white)
-//                                .padding(.top, 10)
-//
-//                        }.padding([.leading,.trailing], 20)
-//
-//                        HStack(spacing: 1){
-//                            Text(headline.author ?? "Author Missing")
-//
-//                        }
-//                         .foregroundColor(.white.opacity(0.9))
-//                         .font(.body)
-//                         .padding([.top, .leading,.trailing], 20)
-//
-//                    }
-//                    .background(SwiftUI.Color.black.opacity(0.4))
-//                })
-//
-//
-//            }
     }
 
 struct HeadlineRow_Previews: PreviewProvider {

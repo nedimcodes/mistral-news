@@ -19,19 +19,19 @@ Module contains all ObservableObject classes responsible for runtime state manag
 ### Networking
 Module contains handler responsible for all API calls to the news API.
 
-##Packages
+## Packages
 App uses native SPM for packages
 - Awesome (AwesomeFont Icon)
 - SDWebImageSwiftUI (Image Loading)
 - SQLite (DBMS) 
 
-##App Features
+## App Features
 
-[-] Fetching "top" headlines for 5+ categories
-[-] Implemented pagination
-[-] FontAwesome Icons
-[-] Searching news by keywords
-[-] Handling networking errors
-[-] Managing keywords
-[-] Sending notifications when new headline appears for given keyword
+- Fetching "top" headlines for 5+ categories
+- Implemented pagination
+- FontAwesome Icons
+- Searching news by keywords
+- Handling networking errors
+- Managing keywords
+- Sending notifications when new headline appears for given keyword
 

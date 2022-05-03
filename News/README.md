@@ -1,7 +1,7 @@
 #  Technical Task - News App 📰
 
 ## About project
-App is built with SwiftUI and UIKit (mimicking the 'legacy' codebase).
+App is built with SwiftUI and UIKit (mimicking the 'legacy' codebase).<br>
 App uses strongly followed MVVM architecture.
 
 ## Modules 
@@ -26,6 +26,7 @@ App uses native SPM for packages
 - SQLite (DBMS) 
 
 ##App Features
+
 [-] Fetching "top" headlines for 5+ categories
 [-] Implemented pagination
 [-] FontAwesome Icons
